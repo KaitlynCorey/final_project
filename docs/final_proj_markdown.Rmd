@@ -1,5 +1,5 @@
 ---
-title: "finalproject"
+title: "Final Project"
 author: "Kaitlyn Corey"
 date: "7/16/2019"
 output: html_document
@@ -9,22 +9,118 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## Project Overview
+In this project, I will
++ Import two excell files obtained from a larger [NSDUH data set](https://www.samhsa.gov/data/report/2016-2017-nsduh-state-prevalence-estimates)
++ Clean up the data frames
++ Create graphs of both substance abuse disorder and serious mental illness prevelence by state
++ Interpret relationships between the graphs
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+## Run Necessary Libraries
+Run this part of the code to run the necessary libraries.
+```{r, message=FALSE}
+library(readxl)
+library(dplyr)
+library(ggplot2)
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+## Importing Data
+Read the excel files provided in the final_project/data folder into the rmarkdown.
+```{r}
+#sub_use <- read_excel("../data/sub_use.xlsx")
+#srs_mental_ill <- read_excel("../data/srs_mental_ill.xlsx")
+sub_use <- read_excel("../data/sub_use_perc.xlsx")
+srs_mental_ill <- read_excel("../data/srs_mental_ill_perc.xlsx")
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+## Data Frame Manipulation
+Edit the sub_use data frame so that
+1. unneeded rows (US total, N, S, E, W) are deleted,
+2. columns needed are re-named to names without number characters, and
+3. only columns that are needed are included
+```{r}
+sub_use <- sub_use[-c(1,2,3,4,5), ]
+names(sub_use)[3]<-"twelve_or_older"
+names(sub_use)[6]<-"twelve_to_seventeen"
+names(sub_use)[9]<-"eighteen_to_twentyfive"
+names(sub_use)[12]<-"twentysix_or_older"
+names(sub_use)[15]<-"eighteen_or_older"
+sub_use <- select(sub_use, State, twelve_or_older, twelve_to_seventeen, eighteen_to_twentyfive, twentysix_or_older, eighteen_or_older)
+print(sub_use)
+```
+
+Edit the srs_mental_ill data frame so that
+1. unneeded rows (US total, N, S, E, W) are deleted,
+2. columns needed are re-named to names without number characters, and
+3. only columns that are needed are included
+
+```{r}
+srs_mental_ill <- srs_mental_ill[-c(1,2,3,4,5), ]
+names(srs_mental_ill)[3]<-"eighteen_or_older"
+names(srs_mental_ill)[6]<-"eighteen_to_twentyfive"
+names(srs_mental_ill)[9]<-"twentysix_or_older"
+srs_mental_ill <- select(srs_mental_ill, State, eighteen_or_older, eighteen_to_twentyfive, twentysix_or_older)
+print(srs_mental_ill)
+```
+
+## Bar Graphs
+Creates a graph showing the estimated percent of individuals with substance abuse disorder per state, in ascending order of occurance
+```{r}
+ggplot(data=sub_use) +
+  geom_col(aes(x=reorder(State, eighteen_or_older), y=eighteen_or_older)) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle=90, size = 8)) +
+  labs(title="Occurance of Substance Use Disorder by State", y="Number of Individuals")
+
+```
+
+
+Creates a graph showing the estimated percent of individuals with serious mental disorders per state, in ascending order of occurance
+```{r}
+ggplot(data=srs_mental_ill) +
+  geom_col(aes(x=reorder(State, eighteen_or_older), y=eighteen_or_older)) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle=90, size = 8)) +
+  labs(title="Prevelance of Serious Mental Disorder by State", y="Number of Individuals")
+
+```
+
+
+
+## Scatterplot
+
+```{r}
+combined <- inner_join(sub_use, srs_mental_ill, by = "State")
+
+ggplot(data=combined) +
+  geom_point(aes(x=eighteen_or_older.x, y=eighteen_or_older.y)) +
+  geom_text(aes(x=eighteen_or_older.x, y=eighteen_or_older.y, label=State), size = 2, position=position_jitter(height=.001))
+
+
+``` 
+
+```{r}
+cor.test(combined$eighteen_or_older.x, combined$eighteen_or_older.y)
+
+```
+
+
+
+
+
+
+## Conclusion
+
+---
+
+should be correlated but not on this scale 
+
+
+
+
+
+
+
