@@ -14,7 +14,9 @@ In this project, I will
 + Import two excell files obtained from a larger [NSDUH data set](https://www.samhsa.gov/data/report/2016-2017-nsduh-state-prevalence-estimates)
 + Clean up the data frames
 + Create graphs of both substance abuse disorder and serious mental illness prevelence by state
-+ Interpret relationships between the graphs
++ Create a scatter plot showing the relationship between substance abuse disorder prevelence and serious mental illness prevelence by state
++ Determine correlation
++ Interpret relationships
 
 
 ## Run Necessary Libraries
@@ -27,10 +29,8 @@ library(ggplot2)
 
 
 ## Importing Data
-Read the excel files provided in the final_project/data folder into the rmarkdown.
+Read the excel files provided in the final_project/data folder into the rmarkdown.These files contain the estimated percent of each state population that suffers from 1. substance abuse disorder and 2. serious mental illness
 ```{r}
-#sub_use <- read_excel("../data/sub_use.xlsx")
-#srs_mental_ill <- read_excel("../data/srs_mental_ill.xlsx")
 sub_use <- read_excel("../data/sub_use_perc.xlsx")
 srs_mental_ill <- read_excel("../data/srs_mental_ill_perc.xlsx")
 ```
@@ -73,7 +73,7 @@ ggplot(data=sub_use) +
   geom_col(aes(x=reorder(State, eighteen_or_older), y=eighteen_or_older)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle=90, size = 8)) +
-  labs(title="Occurance of Substance Use Disorder by State", y="Number of Individuals")
+  labs(title="Occurance of Substance Use Disorder by State", x="State", y="% Population with Substance Use Disorder")
 
 ```
 
@@ -84,7 +84,7 @@ ggplot(data=srs_mental_ill) +
   geom_col(aes(x=reorder(State, eighteen_or_older), y=eighteen_or_older)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle=90, size = 8)) +
-  labs(title="Prevelance of Serious Mental Disorder by State", y="Number of Individuals")
+  labs(title="Prevelance of Serious Mental Disorder by State", x= "State", y="% Population with Serious Mental Illness")
 
 ```
 
@@ -97,10 +97,15 @@ combined <- inner_join(sub_use, srs_mental_ill, by = "State")
 
 ggplot(data=combined) +
   geom_point(aes(x=eighteen_or_older.x, y=eighteen_or_older.y)) +
-  geom_text(aes(x=eighteen_or_older.x, y=eighteen_or_older.y, label=State), size = 2, position=position_jitter(height=.001))
+  geom_text(aes(x=eighteen_or_older.x, y=eighteen_or_older.y, label=State), size = 2, position=position_jitter(height=.001)) +
+  labs(title= "Substance Use VS Serious Mental Illness by State", x="Prevelence of Substance Use Disorder", y="Prevelence of Serious Mental Illness")
 
 
 ``` 
+
+## Correlation Test 
+This will determine the correlation between occurance of severe mental illness and occurance of substance abuse disorder. 
+If p < 0.05, the relationship is significant.
 
 ```{r}
 cor.test(combined$eighteen_or_older.x, combined$eighteen_or_older.y)
@@ -108,15 +113,16 @@ cor.test(combined$eighteen_or_older.x, combined$eighteen_or_older.y)
 ```
 
 
-
-
-
-
 ## Conclusion
+Previous research as shown that individuals with serious mental illness often end up abusing substances as well (Comer). Based on the bar graphs shown, this does not seem to be the case at a state-wide level. When plotting the percent of individuals with substance abuse disorder per state  and then the percent of individuals with a serious mental illness per state, one would expect the order of the states along the x axis to be the same (or at least very close) if these true values truly were correlated. However, this is not the case. The next graph created was a scatter plot. I expected to see a positive linear trend; however, this plot does not seem to follow any trend. The points do not seem to illustrate any sort of pattern. Finally, I calculated Pearson's correlation. To indicate a significant relationship, the p-value would need to be below 0.05. For this data, the p-value was far above 0.05, at 0.217. These figures and this p-value all indicate that, with this data set, there is no significant relationship between the % of the state with a serious mental disorder and % of the state with substance abuse disorder. Perhaps if other factors were included, such as socioeconomic level, the relationship would become more signifiant. I would be interested to see what SAMHSA consinders to be a serious mental illness. Comer defines "serious mental illness" as bipolar disorder and schizophrenia, as individuals with these disorders often cannot hold a job. For this reason, I believe socioeconomic status may play a role.
 
----
 
-should be correlated but not on this scale 
+
+
+## Works cited
+
+Comer, R.J. (2010). Abnormal psychology tenth edition. New York, NY: Worth.
+
 
 
 
