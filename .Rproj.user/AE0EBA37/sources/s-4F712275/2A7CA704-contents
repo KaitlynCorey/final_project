@@ -1,0 +1,28 @@
+# ggplot layers (add plot elements on top of existing plot)
+library(ggplot2)
+acacia <- read.csv("http://www.esapubs.org/archive/ecol/E095/064/ACACIA_DREPANOLOBIUM_SURVEY.txt", sep="\t", na.strings = c("dead"))
+
+# Add line
+ggplot(data=acacia, aes(x=CIRC, y=HEIGHT)) +
+  geom_point(size=3, alpha=0.5) + 
+  geom_smooth(method='lm')
+
+# Add line by group
+ggplot(data=acacia, aes(x=CIRC, y=HEIGHT, color= TREATMENT)) +
+  geom_point(size=3, alpha=0.5) + 
+  geom_smooth(method='lm')
+
+# transformations 
+# e.g., perform a linear model
+ggplot(data=acacia, aes(x=CIRC, y=HEIGHT)) +
+  geom_point(size=3, alpha=0.5) + 
+  geom_smooth(method='loess')
+
+# geom*
+# geom_bar()
+ggplot(data=acacia, aes(x=TREATMENT)) + 
+  geom_bar()
+
+# histogram
+ggplot(data=acacia, aes(x=CIRC)) +
+  geom_histogram(bins = 20)

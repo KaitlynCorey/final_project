@@ -1,0 +1,28 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563566242233.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "8822611",
+    "id" : "19D6736C",
+    "lastKnownWriteTime" : 1563566332,
+    "last_content_update" : 1563566332444,
+    "path" : "~/BIO316/final_project/docs/final_proj_markdown.Rmd",
+    "project_path" : "docs/final_proj_markdown.Rmd",
+    "properties" : {
+        "cursorPosition" : "15,34",
+        "last_setup_crc32" : "4F712275bb338d19",
+        "scrollLine" : "0",
+        "source_window_id" : "",
+        "tempName" : "Untitled2"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

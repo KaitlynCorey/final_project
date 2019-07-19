@@ -13,8 +13,8 @@ knitr::opts_chunk$set(echo = TRUE)
 In this project, I will
 + Import two excell files obtained from a larger [NSDUH data set](https://www.samhsa.gov/data/report/2016-2017-nsduh-state-prevalence-estimates)
 + Clean up the data frames
-+ Create graphs of both substance use disorder and serious mental illness prevelence by state
-+ Create a scatter plot showing the relationship between substance use disorder prevelence and serious mental illness prevelence by state
++ Create graphs of both substance abuse disorder and serious mental illness prevelence by state
++ Create a scatter plot showing the relationship between substance abuse disorder prevelence and serious mental illness prevelence by state
 + Determine correlation
 + Interpret relationships
 
@@ -29,7 +29,7 @@ library(ggplot2)
 
 
 ## Importing Data
-Read the excel files provided in the final_project/data folder into the rmarkdown.These files contain the estimated percent of each state population that suffers from 1. substance use disorder and 2. serious mental illness
+Read the excel files provided in the final_project/data folder into the rmarkdown.These files contain the estimated percent of each state population that suffers from 1. substance abuse disorder and 2. serious mental illness
 ```{r}
 sub_use <- read_excel("../data/sub_use_perc.xlsx")
 srs_mental_ill <- read_excel("../data/srs_mental_ill_perc.xlsx")
@@ -67,7 +67,7 @@ print(srs_mental_ill)
 ```
 
 ## Bar Graphs
-Creates a graph showing the estimated percent of individuals with substance use disorder per state, in ascending order of occurance
+Creates a graph showing the estimated percent of individuals with substance abuse disorder per state, in ascending order of occurance
 ```{r}
 ggplot(data=sub_use) +
   geom_col(aes(x=reorder(State, eighteen_or_older), y=eighteen_or_older)) +
@@ -91,7 +91,7 @@ ggplot(data=srs_mental_ill) +
 
 
 ## Scatterplot
-Creates a scatterplot of prevelence of substance use disorder vs prevelence of serious mental illness by state.
+Creates a scatterplot of prevelence of substance abuse disorder vs prevelence of serious mental illness by state.
 ```{r}
 combined <- inner_join(sub_use, srs_mental_ill, by = "State")
 
@@ -104,7 +104,7 @@ ggplot(data=combined) +
 ``` 
 
 ## Correlation Test 
-This will determine the correlation between occurance of severe mental illness and occurance of substance use disorder through a Pearson Correlation Test. 
+This will determine the correlation between occurance of severe mental illness and occurance of substance abuse disorder through a Pearson Correlation Test. 
 If p < 0.05, the relationship is significant.
 
 ```{r}
@@ -114,9 +114,9 @@ cor.test(combined$eighteen_or_older.x, combined$eighteen_or_older.y)
 
 
 ## Conclusion
-Previous research as shown that individuals with serious mental illness many times develop substance use disorder as well (Comer). Based on the bar graphs shown, this does not seem to be the case at a state-by-state level. When plotting the percent of individuals with substance use disorder per state  and then the percent of individuals with a serious mental illness per state, one would expect the order of the states along the x axis to be the same (or at least very close) if these true values truly were correlated. However, this is not the case. For example, the state with the highest occurance of serious mental illness was Utah; however, Utah was 12th (from lowest to highest) in terms of substance use disorder.
+Previous research as shown that individuals with serious mental illness many times develop substance abuse disorder as well (Comer). Based on the bar graphs shown, this does not seem to be the case at a state-by-state level. When plotting the percent of individuals with substance abuse disorder per state  and then the percent of individuals with a serious mental illness per state, one would expect the order of the states along the x axis to be the same (or at least very close) if these true values truly were correlated. However, this is not the case. For example, the state with the highest occurance of serious mental illness was Utah; however, Utah was 12th (from lowest to highest) in terms of substance abuse disorder.
 
-The next graph created was a scatter plot. I expected to see a positive linear trend; however, this plot does not seem to follow any trend. The points do not seem to illustrate any sort of pattern. Finally, I calculated Pearson's correlation. To indicate a significant relationship, the p-value would need to be below 0.05. For this data, the p-value was far above 0.05, at 0.217. These figures and this p-value all indicate that, with this data set, there is no significant relationship between the % of the state with a serious mental disorder and % of the state with substance use disorder. Perhaps if other factors were included, such as socioeconomic level, the relationship would become more signifiant. I would be interested to see what SAMHSA consinders to be a serious mental illness. Comer defines "serious mental illness" as bipolar disorder and schizophrenia, as individuals with these disorders often unable to hold a job due to the severe dehibilitation of their illness. For this reason, I believe socioeconomic status may play a role.
+The next graph created was a scatter plot. I expected to see a positive linear trend; however, this plot does not seem to follow any trend. The points do not seem to illustrate any sort of pattern. Finally, I calculated Pearson's correlation. To indicate a significant relationship, the p-value would need to be below 0.05. For this data, the p-value was far above 0.05, at 0.217. These figures and this p-value all indicate that, with this data set, there is no significant relationship between the % of the state with a serious mental disorder and % of the state with substance abuse disorder. Perhaps if other factors were included, such as socioeconomic level, the relationship would become more signifiant. I would be interested to see what SAMHSA consinders to be a serious mental illness. Comer defines "serious mental illness" as bipolar disorder and schizophrenia, as individuals with these disorders often unable to hold a job due to the severe dehibilitation of their illness. For this reason, I believe socioeconomic status may play a role.
 
 
 

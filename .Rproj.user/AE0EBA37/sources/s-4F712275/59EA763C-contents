@@ -1,0 +1,39 @@
+---
+title: "Final Project"
+author: "Maddie Fancher"
+date: "7/15/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Background 
+
+
+Mental Health awareness is growing dramatically along with treatments and activities people can do in order to improve it. Some of the ways people's mental health have been through different activities like exercise, mindfulness, and meditation. Meditation is the ability to focus one's mind in silence to help an individual relax, ease stress, and improve mental state. 
+
+##Test Question
+How does meditation affect an individual and is it a significant difference?
+
+In thins document I will:
+
+1. Load data
+2. Process it
+3. Make nice graphs
+
+##Packages Required
+```{r, message=FALSE}
+library(dplyr)
+library(ggplot2)
+```
+
+#Data
+
+
+
+
+
+
+

@@ -1,0 +1,65 @@
+---
+title: "CO2-Emissions-Proj"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Background Information
+
+For this project, I used R to look at greenhouse gas emissions.  Specifically, I looked at dairy cattle have become the most prevalent contributors to greenhouse gases in our atmosphere, second to only pollution.
+
+According to the Food and Agriculture Organization of the United Nations, agriculture is responsible for 18% of the total release of greenhouse gases worldwide, more than the entire transportation industry.
+
+I will be looking at three sources of greenhouse gas emissions: agriculture, enteric fermentation (digestion), and manure.  I have found three .csv files from a collection of EPA files titled “U.S. Greenhouse Gas Inventory Report: 1990-2016.”  Here is the link to that page: https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2016.  
+
+I will create histograms to first show a general increase of greenhouse gases over 26 years.  The I will visualize my claim that dairy cattle are the second largest contributor of greenhouse gases by plotting all three together.
+
+## Downloading Files
+
+In order to load in the correct files, drop the folder titled "CO2_Project" into your desktop and change the directory.  The files are formatted strangely, but that should not affect our data visualization.
+
+```{r emissions}
+library(readr)
+agriculture <- read.csv("Agriculture.csv")
+manure <- read.csv("Manure.csv")
+enteric <- read.csv("Enteric_Ferm.csv")
+
+head(agriculture)
+head(manure)
+head(enteric)
+```
+
+## Plots and Manipulations
+
+First I will plot all three sources of greenhouse gas emissions by year to see if there is a general increase among all sources.  As you will see below, there was a general incline of greenhouse gas that resulted from agriculture.  However, there was a sharper incline of greenhouse gas due to manure over that same time span, and manure reached up to about 60 MMT CO2 equivalents.  However, among all the livestock provided with the data, dairy cattle showed the steepest incline among them, showing a significant exponential increase in the mid-2000s.  I can assume that they are the largest contributor to the manure curve as well.
+
+```{r pressure, echo=FALSE}
+library(dplyr)
+library(ggplot2)
+
+#Agriculture (Carbon Dioxide - CO2)
+
+ggplot(agriculture, aes(x = Year., y = CO2)) + geom_point(size = 3, color = "blue", alpha = 0.5) + scale_y_log10() + scale_x_log10() + labs(x = "Time [Years]", y = "Amount of CO2 [MMT CO2 Eq]", title = "Agriculture and Greenhouse Gas Emissions")
+
+#Manure (Methane - CH4)
+
+ggplot(manure, aes(x = Year, y = CH4)) + geom_point(size = 3, color = "red", alpha = 0.5) + scale_y_log10() + scale_x_log10() + labs(x = "Time [Years]", y = "Amount of CH4 [MMT CO2 Eq]", title = "Manure and Greenhouse Gas Emissions")
+
+#Enteric Fermentation in Beef Cattle (Carbon Dioxide - CO2)
+
+ggplot(enteric, aes(x = Year, y = CO2)) + geom_point(size = 3, color = "green", alpha = 0.5) + scale_y_log10() + scale_x_log10() + labs(x = "Time [Years]", y = "Amount of CO2 [MMT CO2 Eq]", title = "Dairy Cattle and Greenhouse Gas Emissions")
+```
+
+Finally, I will overlay all of the graphs so a clear comparison can be made between all three heavy hitters of climate change.
+
+```{r final, echo=FALSE}
+
+ggplot() + geom_point(data = agriculture, aes(x = Year., y = CO2), color = "blue") + geom_point(data = manure, aes(x = Year, y = CH4), color = "red") + geom_point(data = enteric, aes(x = Year, y = CO2), color = "green") + labs(x = "Time [Years]", y = "Amount of CO2 [MMT CO2 Eq]", title = "Largest Sources of Greenhouse Gases")
+```
+
+## Conclusion
+
+Based on the last graph with all of the datasets overlayed, I can conclude that as a whole, dairy cattle are not the largest contributor to greenhouse gas emissions.  The red line clearly shows the drastic increase in greenhouse gas emission due to manure since 1990.  However, dairy cattle proved to be the biggest contributor of all the livestock.  Due to the way the CSV files were provided by the EPA, I had to re-order the data manually.  I chose to do this with only dairy cattle, however, the project folder should have a file titled "Livestock Information" to show the CO2 levels from other livestock.

@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563319455492.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2520555945",
+    "id" : "F5B9ACFA",
+    "lastKnownWriteTime" : 1560121779,
+    "last_content_update" : 1560121779,
+    "path" : "C:/Users/Kaitlyn/Downloads/L5_dplyr.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

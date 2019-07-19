@@ -1,0 +1,23 @@
+## Read in data (year, temperature anomalie)
+
+global.ocean.anomalies = read.csv("https://www.ncdc.noaa.gov/cag/global/time-series/globe/ocean/ytd/12/1880-2017.csv")
+
+june.state.data = read.csv ("https://www.ncdc.noaa.gov/cag/statewide/mapping/110-tavg-201906-1.csv", sep='\t')
+                     
+head(anomalies)                     
+head(june.state.data)
+
+## Convert ocean data into data frame
+data.frame(global.ocean.anomalies)
+head(global.ocean.anomalies)
+
+## Rename Value column as 'Temp Anomalie'
+global.ocean.anomalies %>% rename("Value" = "Avg Temp Change")
+
+head(global.ocean.anomalies)
+
+## Create scatter plot showing temperature trend over time
+library(ggplot2)
+
+ggplot(data = global.ocean.anomalies) + geom_point(aes(x = Year , y = Avg Temp Change), size = 3)
+

@@ -1,0 +1,63 @@
+# ggplot supplement
+setwd('/Users/rharbert/OneDrive - Stonehill College/BIO316/notes/2A')
+census <- read.csv('census2.csv')
+head(census)
+nrow(census)
+
+library(ggplot2)
+
+# refresher
+ggplot(data=census) + geom_point(aes(x=Citizen, y=TotalPop))
+
+# Graphs for single continuous parameters
+# geom_histogram()
+ggplot(data=census) +
+  geom_histogram(aes(x=Citizen), binwidth = 100) +
+  xlim(c(0, 10000))
+
+
+# density plot
+ggplot(data=census) +
+  geom_density(aes(x=Citizen)) +
+  xlim(c(0, 10000))
+
+# area plot
+ggplot(data=census) +
+  geom_area(stat = 'bin', bins = 30, aes(x=Citizen)) +
+  xlim(c(0, 10000))
+
+# Graphs for single discrete parameters
+#geom_bar
+library(forcats) #install.packages('forcats')
+ggplot(data=census) + 
+  geom_bar(aes(x=fct_infreq(State))) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle=90, size = 6)) +
+  xlab('') + 
+  ylab('Census Tract Count')
+
+#Graphs with 2 parameters
+ggplot(data=census) + 
+  geom_point(aes(x=IncomePerCap, y=Poverty), alpha=0.1) +
+  geom_smooth(aes(x=IncomePerCap, y=Poverty))
+
+# geom_hex
+ggplot(data=census) + 
+  geom_hex(aes(x=IncomePerCap, y=Poverty)) +
+  geom_smooth(aes(x=IncomePerCap, y=Poverty))
+
+# geom_density2d
+ggplot(data=census) + 
+  geom_point(aes(x=IncomePerCap, y=Poverty), alpha=0.1) +
+  geom_density2d(aes(x=IncomePerCap, y=Poverty)) +
+  geom_smooth(aes(x=IncomePerCap, y=Poverty))
+
+# One discrete x one continuous parameters
+census.small = census[1:10000,]
+# geom_boxplot
+ggplot(data=census.small) +
+  geom_boxplot(aes(x=State, y=Poverty))
+
+# geom_violin
+ggplot(data=census.small) +
+  geom_violin(aes(x=State, y=Poverty))

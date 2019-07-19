@@ -1,0 +1,30 @@
+#Portal Project, Arizona. 
+
+#Read Data
+surveys <- read.csv('surveys.csv')
+species <- read.csv('species.csv')
+plots <- read.csv('plots.csv')
+
+
+#load library: dplyr
+library(dplyr)
+
+#Things dplyr can do
+# subset different columns
+
+#just year, month, day from surveys
+ymd = select(surveys, year, month, day)
+
+# filter 
+# return rows that match a value
+
+# what is species DM?
+filter(species, species_id == 'DM')
+filter(surveys, species_id == 'DM')
+
+
+# calculate new values/columns using mutate()
+
+surveys2 = mutate(surveys, hindfoot_length_cm = hindfoot_length / 10)
+
+## End of Lecture 1
